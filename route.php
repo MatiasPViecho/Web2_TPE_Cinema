@@ -14,6 +14,7 @@ if (!empty($_GET['action'])) {
 
 // instancia el único controller que existe por ahora
 $userController = new userController();
+$adminController = new adminController();
 
 // parsea la accion Ej: sumar/1/2 --> ['sumar', 5, 4]
     $params = explode('/', $action);
@@ -25,6 +26,64 @@ $userController = new userController();
             break;
         case 'categories':
             $userController->showCategories();
+            break;
+        case 'showProducts':
+            $id = $params[1];
+            $userController->showProductsCategory($id);
+            break;
+        case 'product':
+            $id = $params[1];
+            $userController->showProductInfo($id);
+            break;
+        case 'login':
+            $userController->tbdPage();
+            break;
+        case 'edit':
+            $adminController->showAdminPage(false, null);
+            break;
+        case 'addProduct':
+            $adminController->addProduct();
+            break;
+        case 'addCategory':
+            $adminController->addCategory();
+            break;
+        case 'editProduct':
+            if(isset($params[1])){
+                if($params[1] == 'edit'){
+                    $id = $params[2];
+                    $adminController->editProduct($id);
+                }else{
+                    $id = $params[1];
+                    $adminController->editProductPage($id);
+                }
+            }else
+                header('Location: ' . BASE_URL);
+            break;
+        case 'deleteProduct':
+            if(isset($params[1])){
+                $id = $params[1];
+                $adminController->deleteProduct($id);
+            }else{
+            }
+            header('Location: ' . BASE_URL . 'edit');
+            break;
+        case 'editCategory':
+            if(isset($params[1])){
+                if($params[1] == 'edit'){
+                    $id = $params[2];
+                    $adminController->editCategory($id);
+                    header('Location: ' . BASE_URL . 'edit');
+                }else{
+                    $id = $params[1];
+                    $adminController->editCategoryPage($id);
+                }
+            }
+            break;
+        case 'deleteCategory':
+            if(isset($params[1])){
+                $id = $params[1];
+                $adminController->deleteCategory($id);
+            }
             break;
         default:
             header("HTTP/1.0 404 Not Found");

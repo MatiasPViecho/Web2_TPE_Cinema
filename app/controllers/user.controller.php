@@ -23,4 +23,28 @@ class userController{
         $dbCategories = $this->categoriesModel->getAll();
         $this->userView->showHome($dbProducts, $dbCategories);
     }
+
+    function showCategories(){
+        $dbCategories = $this->categoriesModel->getAll();
+        $this->userView->showCategories($dbCategories);
+    }
+
+    function showProductsCategory($categoryId){
+        $dbProducts = $this->productsModel->getProductsByCategory($categoryId);
+        $categoryName = $this->categoriesModel->getName($categoryId);
+        $dbCategories = $this->categoriesModel->getAll();
+        $this->userView->showProducts($dbProducts, $categoryName, $dbCategories);
+    }
+
+    function showProductInfo($productId){
+        $product = $this->productsModel->getProductById($productId);
+        $categoryId = $product->id_categories_fk;
+        $categoryName = $this->categoriesModel->getName($categoryId);
+
+        $this->userView->showProductInfo($product, $categoryName);    
+    }
+
+    function tbdPage(){
+        $this->userView->showTBD();
+    }
 }

@@ -14,7 +14,7 @@
                 <tr>
                     <td>{$product->model}</td>
                     <td>{$product->brand}</td>
-                    <td>{$product->price}$</td>
+                    <td>${$product->price}</td>
 
                     {assign var=id value=$product->id_categories_fk}
                     {foreach from=$categories item=$catItem}
@@ -24,7 +24,11 @@
                     {/foreach}
                     
                         <td>
-                            <a class='btn btn-warning' href='{BASE_URL}characteristics/{$product->id}'>+ Info</a>
+                            <a class='btn btn-success' href='{BASE_URL}product/{$product->id}'>+ Info</a>
+                            {if $admin == true}
+                                <a class='btn btn-warning' href='{BASE_URL}editProduct/{$product->id}'>Editar Producto</a>
+                                <a class='btn btn-danger' href='{BASE_URL}deleteProduct/{$product->id}'>Delete Product</a>
+                            {/if}
                         </td>
                 </tr>
             {/foreach}
