@@ -27,20 +27,18 @@ class userView{
         $this->smarty->display('footer.tpl');
     }
 
-    function showProducts($db, $name, $dbCategories){
-        $this->smarty->assign('category', $name);
+    function showProducts($db){
         $this->smarty->assign('products', $db);
-        $this->smarty->assign('categories', $dbCategories);
         $this->smarty->assign('admin', false);
 
         $this->smarty->display('header.tpl');
-        $this->smarty->display('productsCategory.tpl');
+        //$this->smarty->display('productsCategory.tpl');
         $this->smarty->display('products.tpl');
         $this->smarty->display('footer.tpl');
     }
 
-    function showProductInfo($product, $category){
-        $this->smarty->assign('category', $category);
+    function showProductInfo($product){
+        //$this->smarty->assign('category', $category);
         $this->smarty->assign('product', $product);
         $this->smarty->assign('admin', true);
 

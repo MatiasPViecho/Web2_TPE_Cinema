@@ -14,15 +14,8 @@
                 <tr>
                     <td>{$product->model}</td>
                     <td>{$product->brand}</td>
-                    <td>${$product->price}</td>
-
-                    {assign var=id value=$product->id_categories_fk}
-                    {foreach from=$categories item=$catItem}
-                        {if $catItem->id == $id}
-                            <td>{$catItem->category}</td>
-                        {/if}
-                    {/foreach}
-                    
+                    <td>{$product->price}</td>
+                    <td>{$product->category}</td>
                         <td>
                             <a class='btn btn-success' href='{BASE_URL}product/{$product->id}'>+ Info</a>
                             {if $admin == true}

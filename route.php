@@ -2,6 +2,7 @@
 
 require_once './app/controllers/user.controller.php';
 require_once './app/controllers/admin.controller.php';
+require_once './app/controllers/home.controller.php';
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
 
@@ -15,14 +16,14 @@ if (!empty($_GET['action'])) {
 // instancia el único controller que existe por ahora
 $userController = new userController();
 $adminController = new adminController();
-
+$homeController = new homeController();
 // parsea la accion Ej: sumar/1/2 --> ['sumar', 5, 4]
     $params = explode('/', $action);
     
     //tabla de ruteo
     switch($params[0]){
         case 'home':
-            $userController->showHome();
+            $homeController->showHome();
             break;
         case 'categories':
             $userController->showCategories();

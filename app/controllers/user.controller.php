@@ -6,9 +6,9 @@ require_once './app/views/admin.view.php';
 
 
 class userController{
-    private $userModel;
+    private $productsModel;
     private $userView;
-    private $adminModel;
+    private $categoriesModel;
     private $adminView;
 
     function __construct(){
@@ -18,10 +18,22 @@ class userController{
         $this->adminView = new adminView();
     }
 
+    // DONE
     function showHome(){
         $dbProducts = $this->productsModel->getAll();
         $dbCategories = $this->categoriesModel->getAll();
-        $this->userView->showHome($dbProducts, $dbCategories);
+        
+        //Asigno a cada item de productos una nueva variable "category" que muestre
+        // el nombre a la categoría que pertenecen
+        for ($i=0; $i < count($dbProducts); $i++) { 
+            foreach ($dbCategories as $catItem) {
+                if($dbProducts[$i]->id_categories_fk == $catItem->id){
+                    $dbProducts[$i]->category = $catItem->category;
+                }
+            }
+        }
+
+        $this->userView->showProducts($dbProducts);
     }
 
     function showCategories(){
@@ -29,11 +41,21 @@ class userController{
         $this->userView->showCategories($dbCategories);
     }
 
+    
     function showProductsCategory($categoryId){
         $dbProducts = $this->productsModel->getProductsByCategory($categoryId);
         $categoryName = $this->categoriesModel->getName($categoryId);
         $dbCategories = $this->categoriesModel->getAll();
-        $this->userView->showProducts($dbProducts, $categoryName, $dbCategories);
+        //Asigno a cada item de productos una nueva variable "category" que muestre
+        // el nombre a la categoría que pertenecen
+        for ($i=0; $i < count($dbProducts); $i++) { 
+            foreach ($dbCategories as $catItem) {
+                if($dbProducts[$i]->id_categories_fk == $catItem->id){
+                    $dbProducts[$i]->category = $catItem->category;
+                }
+            }
+        }
+        $this->userView->showProducts($dbProducts, $categoryName);
     }
 
     function showProductInfo($productId){
