@@ -3,6 +3,10 @@
 require_once './app/controllers/user.controller.php';
 require_once './app/controllers/admin.controller.php';
 require_once './app/controllers/home.controller.php';
+require_once './app/controllers/editPanel.controller.php';
+require_once './app/controllers/login.controller.php';
+require_once './app/controllers/search.controller.php';
+
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
 
@@ -14,33 +18,49 @@ if (!empty($_GET['action'])) {
 }
 
 // instancia el único controller que existe por ahora
-$userController = new userController();
 $adminController = new adminController();
 $homeController = new homeController();
+$editPanelController = new editPanel();
+$loginController = new loginController();
+$searchController = new searchController();
+
+
 // parsea la accion Ej: sumar/1/2 --> ['sumar', 5, 4]
     $params = explode('/', $action);
     
     //tabla de ruteo
     switch($params[0]){
-        case 'home':
+        case 'home': //done
             $homeController->showHome();
             break;
-        case 'categories':
-            $userController->showCategories();
-            break;
-        case 'showProducts':
-            $id = $params[1];
-            $userController->showProductsCategory($id);
-            break;
-        case 'product':
-            $id = $params[1];
-            $userController->showProductInfo($id);
+
+        case 'search':
+            if(isset($params[1]) && ($params[1] == 'product' || $params[1] == 'category' || $params[1] == 'query')){
+                switch($params[1]){
+                    case 'product':
+                        $id = $params[2];
+                        $searchController->showProductInfo($id);
+                        break;
+                    case 'category':
+                        $id = $params[2];
+                        $searchController->showProductsByCategory($id);
+                        break;
+                    case 'query':
+                        $searchController->searchQuery();
+                        break;
+                    default:
+                        $searchController->showBaseSearchPage();
+                        break;
+                }
+            }else{
+                $searchController->showBaseSearchPage();
+            }
             break;
         case 'login':
-            $userController->tbdPage();
+            $loginController->showLogin();
             break;
         case 'edit':
-            $adminController->showAdminPage(false, null);
+            $editPanelController->showEditPanel();
             break;
         case 'addProduct':
             $adminController->addProduct();

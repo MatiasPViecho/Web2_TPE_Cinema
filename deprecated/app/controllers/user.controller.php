@@ -36,12 +36,13 @@ class userController{
         $this->userView->showProducts($dbProducts);
     }
 
+    // changed to home
     function showCategories(){
         $dbCategories = $this->categoriesModel->getAll();
         $this->userView->showCategories($dbCategories);
     }
 
-    
+    // TBD in searchController DONE // missing view part
     function showProductsCategory($categoryId){
         $dbProducts = $this->productsModel->getProductsByCategory($categoryId);
         $categoryName = $this->categoriesModel->getName($categoryId);
@@ -58,6 +59,7 @@ class userController{
         $this->userView->showProducts($dbProducts, $categoryName);
     }
 
+    //TBD in searchController
     function showProductInfo($productId){
         $product = $this->productsModel->getProductById($productId);
         $categoryId = $product->id_categories_fk;
@@ -66,6 +68,7 @@ class userController{
         $this->userView->showProductInfo($product, $categoryName);    
     }
 
+    // Not a function
     function tbdPage(){
         $this->userView->showTBD();
     }
