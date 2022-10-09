@@ -3,6 +3,7 @@
 require_once './app/models/products.model.php';
 require_once './app/models/categories.model.php';
 require_once './app/views/home.view.php';
+require_once './helpers/auth.helper.php';
 
 class homeController{
     private $productsModel;
@@ -12,7 +13,10 @@ class homeController{
     function __construct(){
         $this->productsModel = new productsModel();
         $this->categoriesModel = new categoriesModel();
+        $authHelper = new AuthHelper();
+        
         $this->homeView = new homeView();
+
     }
 
     function showHome(){

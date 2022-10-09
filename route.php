@@ -1,6 +1,5 @@
 <?php
 
-require_once './app/controllers/user.controller.php';
 require_once './app/controllers/admin.controller.php';
 require_once './app/controllers/home.controller.php';
 require_once './app/controllers/editPanel.controller.php';
@@ -57,7 +56,14 @@ $searchController = new searchController();
             }
             break;
         case 'login':
-            $loginController->showLogin();
+            if(isset($params[1]) && ($params[1] == 'verify')){
+                $loginController->verifyUser();
+            }else{
+                $loginController->showLogin();
+            }
+            break;
+        case 'logout':
+            $loginController->logout();
             break;
         case 'edit':
             $editPanelController->showEditPanel();

@@ -3,20 +3,22 @@
 require_once './app/models/categories.model.php';
 require_once './app/models/products.model.php';
 require_once './app/views/editPanel.view.php';
-
+require_once './helpers/auth.helper.php';
 
 class editPanel{
     private $productsModel;
     private $categoriesModel;
     private $editPanelView;
-
+    private $authHelper;
     function __construct(){
         $this->productsModel = new productsModel();
         $this->categoriesModel = new categoriesModel();
         $this->editPanelView = new editPanelView();
+        $this->authHelper = new AuthHelper();
     }
 
     function showEditPanel(){
+        $this->authHelper->checkLoggedIn();
         $dbProducts = $this->productsModel->getAll();
         $dbCategories = $this->categoriesModel->getAll();
         $dbProducts = $this->addCategoryName($dbProducts, $dbCategories);

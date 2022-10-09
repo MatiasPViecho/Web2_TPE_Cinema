@@ -1,5 +1,6 @@
 <?php
 require_once './libs/smarty/libs/Smarty.class.php';
+require_once './helpers/auth.helper.php';
 
 class homeView{
     private $smarty;
@@ -8,10 +9,14 @@ class homeView{
     private $msg;
 
     function __construct(){
-        $this->smarty = new Smarty();
         $this->admin = false;
         $this->warning = false;
         $this->msg = null;
+        $authHelper = new AuthHelper();
+        $username = $authHelper->getLoggedUsername();
+
+        $this->smarty = new Smarty();
+        $this->smarty->assign('userName', $username);
         $this->assignCurrentValues();
         $this->smarty->display('header.tpl');
     }

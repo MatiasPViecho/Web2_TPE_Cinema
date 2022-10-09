@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
     <link rel="stylesheet" href="css/style.css">
-    <title>Header!</title>
+    {assign var='action' value=($smarty.get['action'])}
+    {assign var='title' value=explode('/', $action)}
+    <title>{$title[0]|upper}</title>
+    {* El título de la página en la que se encuentra cambia de manera dinámica
+        tomando el título del mismo modo que el route, utilizando el valor 0 *}
 </head>
 <body class='d-flex flex-column min-vh-100'>
     <div class=' navbar navbar-expand-lg bg-dark '>
@@ -21,9 +25,15 @@
                 <li class='nav-item'>
                     <a class='nav-link text-white' href='{BASE_URL}search'>BUSCAR</a>
                 </li>
-                {if $admin == true}
+                {if isset($userName)}
                     <li class='nav-item'>
-                        <a class='nav-link text-white' href='{BASE_URL}edit'>EDIT</a>
+                        <a class='nav-link text-white' href='{BASE_URL}logout'>LOGOUT</a>
+                    </li>
+                    <li class='nav-item'>
+                        <a class='nav-link text-success disabled' href=''>SESION: {$userName|upper}</a>
+                    </li>
+                    <li class='nav-item'>
+                        <a class='nav-link text-white' href='{BASE_URL}edit'>MODIFICAR</a>
                     </li>
                 {/if}
             </ul>

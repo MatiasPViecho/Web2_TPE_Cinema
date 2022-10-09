@@ -36,11 +36,11 @@ class editPanelView{
     private function setAdmin($value = null){
         if((!is_null($value)) && ($value == true || $value == false)){
             $this->admin = $value;
-            echo "hola mundo true";
+           //echo "hola mundo true";
         }
         else{
             $this->admin = !$this->admin;
-            echo "hola mundo else";
+            //echo "hola mundo else";
         }
     }
 

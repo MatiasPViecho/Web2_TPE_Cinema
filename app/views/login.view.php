@@ -9,8 +9,10 @@ class loginView{
         $this->smarty = new Smarty();
     }   
 
-    function showLogin(){
-        $this->smarty->display('tbd.tpl');
+    function showLogin($msg = null){
+        $this->smarty->assign('error', $msg);
+        
+        $this->smarty->display('login.tpl');
         $this->smarty->display('footer.tpl');    
     }
 }
