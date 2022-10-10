@@ -1,0 +1,1 @@
+<p class='text-center alert alert-danger'>{$error|upper}</p>

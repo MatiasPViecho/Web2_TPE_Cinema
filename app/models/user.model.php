@@ -18,6 +18,4 @@ class usersModel{
         $result = $query->fetch(PDO::FETCH_OBJ);
         return $result;
     }
-
-
 }

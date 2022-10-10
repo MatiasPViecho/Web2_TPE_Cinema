@@ -20,7 +20,6 @@ class loginController{
     function showLogin(){
         // missing login input and output
         $this->loginView->showLogin();
-
         // if succesfull login -> activate admin
         // else, error msg -> no user
     }

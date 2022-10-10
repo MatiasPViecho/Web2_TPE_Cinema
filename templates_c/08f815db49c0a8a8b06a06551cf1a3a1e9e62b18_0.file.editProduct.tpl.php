@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.2.1, created on 2022-10-05 22:58:48
+/* Smarty version 4.2.1, created on 2022-10-10 00:39:28
   from 'C:\xampp\htdocs\WEB2\TPE\templates\editProduct.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.2.1',
-  'unifunc' => 'content_633df008837dc8_19425562',
+  'unifunc' => 'content_63434da05917e7_82958660',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '08f815db49c0a8a8b06a06551cf1a3a1e9e62b18' => 
     array (
       0 => 'C:\\xampp\\htdocs\\WEB2\\TPE\\templates\\editProduct.tpl',
-      1 => 1665003524,
+      1 => 1665355093,
       2 => 'file',
     ),
   ),
@@ -20,32 +20,13 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_633df008837dc8_19425562 (Smarty_Internal_Template $_smarty_tpl) {
-?><div class='card text-bg-dark mb-3 w-75 card mx-auto'>
-    <div class='card-header text-center pt-3'>
-        <p class="display-4">
-            Editando: <?php echo $_smarty_tpl->tpl_vars['product']->value->model;?>
-
-        </p>
-    </div>
-    <div class='card-body'>
-        <h5 class='card-title'><?php echo $_smarty_tpl->tpl_vars['product']->value->model;?>
-</h5>
-        <ul class='list-group list-group-flush'>
-            <li class='text-bg-secondary list-group-item card-text'>Marca: <?php echo $_smarty_tpl->tpl_vars['product']->value->brand;?>
-</li>
-            <li class='text-bg-secondary list-group-item card-text'>País de origen: <?php echo $_smarty_tpl->tpl_vars['product']->value->country;?>
-</li>
-            <li class='text-bg-secondary list-group-item card-text'>Precio ($ARS): <?php echo $_smarty_tpl->tpl_vars['product']->value->price;?>
-$</li>
-            <li class='text-bg-secondary list-group-item card-text'>Características Técnicas: <p class=''><?php echo $_smarty_tpl->tpl_vars['product']->value->techChar;?>
-</p></li>
-        <ul>
-
-        <form class='container' action='edit/<?php echo $_smarty_tpl->tpl_vars['product']->value->id;?>
+function content_63434da05917e7_82958660 (Smarty_Internal_Template $_smarty_tpl) {
+?>
+        <form class='container' action='<?php echo BASE_URL;?>
+product/modify/edit/<?php echo $_smarty_tpl->tpl_vars['product']->value->id;?>
 ' method='POST'>
-            <div class='row'>
-                <div class='col'>
+            <div class='w-75 mx-auto'>
+            <div>
                                     <label for="model">Nombre del Producto</label>
                         <input class='form-control' type="text" name="model" value='<?php echo $_smarty_tpl->tpl_vars['product']->value->model;?>
 ' />
@@ -55,18 +36,16 @@ $</li>
                     <label for="country">Ingrese País de origen del producto</label>
                         <input class='form-control' type="text" name='country' value='<?php echo $_smarty_tpl->tpl_vars['product']->value->country;?>
 '/>
-                </div>
-                <div class='col'>
                                         <label for="brand">Ingrese Marca del producto</label>
                         <input class='form-control' type="text" name='brand' value='<?php echo $_smarty_tpl->tpl_vars['product']->value->brand;?>
 '/>
+            </div>
                     <label for="characteristics">Ingrese las características del producto</label>
                         <textarea name="characteristics" cols="35" rows="4" value='<?php echo $_smarty_tpl->tpl_vars['product']->value->techChar;?>
 '><?php echo $_smarty_tpl->tpl_vars['product']->value->techChar;?>
 </textarea>
-                </div>
-                <div class='col'>
-                                <select name='category' class='my-4 text-center custom-select'>
+                            <div>
+                <select name='category' class='my-4 text-center custom-select'>
                     <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['categories']->value, 'catItem');
 $_smarty_tpl->tpl_vars['catItem']->do_else = true;
@@ -86,10 +65,8 @@ $_smarty_tpl->tpl_vars['catItem']->do_else = false;
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                 </select>
-                </div>
+                <button  type="submit" class='w-50 text-center form-control btn btn-warning'>Editar Producto</button>
             </div>
-            <button  type="submit" class='mt-3 form-control btn btn-warning'>Editar Producto</button>
-        </form>
-    </div>
-</div><?php }
+            </div>
+        </form><?php }
 }

@@ -18,12 +18,15 @@ class productsModel{
         $result = $query->fetchAll(PDO::FETCH_OBJ);
         return $result;
     }
-
-    function getProductsQuery($model, $brand, $minPrice, $maxPrice, $country){
+    function getProductsQuery($model, $brand, $minPrice, $maxPrice, $country, $categoryFK = null){
         //$query = $this->db->prepare("SELECT * FROM products WHERE model LIKE '%'?'%' AND brand LIKE '%'?'%' AND price LIKE '%'?'%' AND country LIKE '%'?'%' ");
-        $query = $this->db->prepare("SELECT * FROM products WHERE model LIKE '%$model%' AND brand LIKE '%$brand%' AND country LIKE '%$country%' AND price BETWEEN $minPrice AND $maxPrice");
-        $query->execute();
-
+        if(is_null($categoryFK)){
+            $query = $this->db->prepare("SELECT * FROM products WHERE model LIKE '%$model%' AND brand LIKE '%$brand%' AND country LIKE '%$country%' AND price BETWEEN $minPrice AND $maxPrice");
+            $query->execute();
+        }else{
+            $query = $this->db->prepare("SELECT * FROM products WHERE model LIKE '%$model%' AND brand LIKE '%$brand%' AND country LIKE '%$country%' AND price BETWEEN $minPrice AND $maxPrice AND id_categories_fk = ?");
+            $query->execute([$categoryFK]);
+        }
         $result = $query->fetchAll(PDO::FETCH_OBJ);
         return $result;
     }

@@ -1,10 +1,9 @@
 <?php
 
-require_once './app/controllers/admin.controller.php';
 require_once './app/controllers/home.controller.php';
-require_once './app/controllers/editPanel.controller.php';
 require_once './app/controllers/login.controller.php';
 require_once './app/controllers/search.controller.php';
+require_once './app/controllers/edit.controller.php';
 
 
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
@@ -17,12 +16,10 @@ if (!empty($_GET['action'])) {
 }
 
 // instancia el único controller que existe por ahora
-$adminController = new adminController();
 $homeController = new homeController();
-$editPanelController = new editPanel();
 $loginController = new loginController();
 $searchController = new searchController();
-
+$editController = new editController();
 
 // parsea la accion Ej: sumar/1/2 --> ['sumar', 5, 4]
     $params = explode('/', $action);
@@ -36,13 +33,22 @@ $searchController = new searchController();
         case 'search':
             if(isset($params[1]) && ($params[1] == 'product' || $params[1] == 'category' || $params[1] == 'query')){
                 switch($params[1]){
-                    case 'product':
-                        $id = $params[2];
-                        $searchController->showProductInfo($id);
+                    case 'product': 
+                        if(!isset($params[2]))
+                            $searchController->showBaseSearchPage();
+                        else{
+                            $id = $params[2];
+                            $searchController->showProductInfo($id);
+                        }
+
                         break;
                     case 'category':
-                        $id = $params[2];
-                        $searchController->showProductsByCategory($id);
+                        if(!isset($params[2]))
+                            $searchController->showBaseSearchPage();
+                        else{
+                            $id = $params[2];
+                            $searchController->showProductsByCategory($id);
+                        }
                         break;
                     case 'query':
                         $searchController->searchQuery();
@@ -65,53 +71,66 @@ $searchController = new searchController();
         case 'logout':
             $loginController->logout();
             break;
+
         case 'edit':
-            $editPanelController->showEditPanel();
-            break;
-        case 'addProduct':
-            $adminController->addProduct();
-            break;
-        case 'addCategory':
-            $adminController->addCategory();
-            break;
-        case 'editProduct':
-            if(isset($params[1])){
-                if($params[1] == 'edit'){
-                    $id = $params[2];
-                    $adminController->editProduct($id);
-                }else{
-                    $id = $params[1];
-                    $adminController->editProductPage($id);
+                $editController->showEditPanel();
+                break;
+
+        case 'product':
+            if(isset($params[1]) && (($params[1] == 'add') || ($params[1] == 'modify') || ($params[1] == 'delete'))){
+                switch($params[1]){
+                    case 'add':
+                        $editController->addProduct();
+                        break;
+                    case 'modify':
+                        if(!isset($params[2]))
+                            $editController->showModifyProductPanel(null);
+                        else{
+                            if($params[2] == 'edit'){
+                                $editController->modifyProduct($params[3]);
+                            }else{
+                                $editController->showModifyProductPanel($params[2]);
+                            }
+                        }
+                        break;
+                    case 'delete':
+                        if(!isset($params[2])){
+                            $editController->deleteProduct(null);
+                        }else
+                            $editController->deleteProduct($params[2]);
+                        break;
                 }
             }else
-                header('Location: ' . BASE_URL);
+                $editController->showProductsPanel();
             break;
-        case 'deleteProduct':
-            if(isset($params[1])){
-                $id = $params[1];
-                $adminController->deleteProduct($id);
-            }else{
-            }
-            header('Location: ' . BASE_URL . 'edit');
-            break;
-        case 'editCategory':
-            if(isset($params[1])){
-                if($params[1] == 'edit'){
-                    $id = $params[2];
-                    $adminController->editCategory($id);
-                    header('Location: ' . BASE_URL . 'edit');
-                }else{
-                    $id = $params[1];
-                    $adminController->editCategoryPage($id);
+        case 'category':
+            if(isset($params[1]) && (($params[1] == 'add') || ($params[1] == 'modify') || ($params[1] == 'delete'))){
+                switch($params[1]){
+                    case 'add':
+                        $editController->addCategory();
+                        break;
+                    case 'modify':
+                        if(!isset($params[2]))
+                            $editController->showModifyCategoryPanel(null);
+                        else{
+                            if($params[2] == 'edit'){
+                                $editController->modifyCategory($params[3]);
+                            }else{
+                                $editController->showModifyCategoryPanel($params[2]);
+                            }
+                        }
+                        break;
+                    case 'delete':
+                        if(!isset($params[2])){
+                            $editController->deleteCategory(null);
+                        }else
+                            $editController->deleteCategory($params[2]);
+                        break;
                 }
             }
-            break;
-        case 'deleteCategory':
-            if(isset($params[1])){
-                $id = $params[1];
-                $adminController->deleteCategory($id);
-            }
-            break;
+            else
+                $editController->showCategoryPanel();
+                break;
         default:
             header("HTTP/1.0 404 Not Found");
             echo('404 Page not found');

@@ -1,4 +1,4 @@
-<div class='card text-bg-dark mt-5 mb-3 w-75 card mx-auto'>
+<div class='card text-bg-dark mb-3 w-75 card mx-auto'>
     <div class='card-header text-center pt-3'>
         <p>
             <p class='pe-5 text-center display-6'>Viendo productos de categoría: {$product->category}</p>

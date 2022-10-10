@@ -11,7 +11,7 @@
     </form>
     {if $error}
     <div>
-        <p class='alert alert-warning'>{$error}</p>
+        {include 'error.tpl'}
     </div>
     {/if}
 </div>

@@ -13,7 +13,7 @@
         tomando el título del mismo modo que el route, utilizando el valor 0 *}
 </head>
 <body class='d-flex flex-column min-vh-100'>
-    <div class=' navbar navbar-expand-lg bg-dark '>
+    <div class=' navbar navbar-expand-lg bg-dark mb-3'>
         <div class="container-fluid ">
             <ul class='pe-5 navbar-nav me-auto mb-2 mb-lg-0'>
                 <li class='nav-item'>
@@ -27,7 +27,7 @@
                 </li>
                 {if isset($userName)}
                     <li class='nav-item'>
-                        <a class='nav-link text-white' href='{BASE_URL}logout'>LOGOUT</a>
+                        <a class='nav-link text-danger ' href='{BASE_URL}logout'>LOGOUT</a>
                     </li>
                     <li class='nav-item'>
                         <a class='nav-link text-success disabled' href=''>SESION: {$userName|upper}</a>

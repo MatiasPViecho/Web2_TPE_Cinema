@@ -15,24 +15,33 @@ class searchController{
         $this->searchView = new searchView();
     }
 
-    function showBaseSearchPage(){
-        $this->searchView->showSearchPage();
+    function showBaseSearchPage($msg = null){
+        $dbCategories = $this->categoriesModel->getAll();
+        $this->searchView->showSearchPage($dbCategories, $msg);
     }
 
     function showProductsByCategory($categoryId){
         $dbProducts = $this->productsModel->getProductsByCategory($categoryId);
         $dbCategories = $this->categoriesModel->getAll();
         $dbProducts = $this->addCategoryNameDB($dbProducts, $dbCategories);
-
         $this->searchView->showProducts($dbProducts);
+        $this->showBaseSearchPage();
     }
 
     function showProductInfo($productId){
         $product = $this->productsModel->getProductById($productId);
         $dbCategories = $this->categoriesModel->getAll();
-        if($product != false)
+        
+        if($product == false){
+            $this->showBaseSearchPage('No existe el producto del que mostrar información');
+        }else{
             $product = $this->addCategoryNameProduct($product, $dbCategories);
-        $this->searchView->showProductInfo($product);
+            $this->searchView->showProductInfo($product);
+            $this->showBaseSearchPage();
+
+        }
+
+        
     }
     
     function searchQuery(){
@@ -41,19 +50,30 @@ class searchController{
         $minPrice = $_POST['minPrice'];
         $maxPrice = $_POST['maxPrice'];
         $country = $_POST['country'];
+        if(empty($_POST['category']))
+            $categoryFK = null;
+        else
+            $categoryFK = $_POST['category'];
+
+
         if(empty($minPrice))
             $minPrice = 0;
         if($maxPrice < $minPrice){
             $maxPrice = $this->productsModel->getMaxPrice();
         }
 
-        $dbProducts = $this->productsModel->getProductsQuery($name, $brand, $minPrice, $maxPrice, $country);
+        $dbProducts = $this->productsModel->getProductsQuery($name, $brand, $minPrice, $maxPrice, $country, $categoryFK);
         $dbCategories = $this->categoriesModel->getAll();
         if($dbProducts != false){
             $dbProducts = $this->addCategoryNameDB($dbProducts, $dbCategories);
         }
-        
-        $this->searchView->showProducts($dbProducts);
+
+        if(count($dbProducts) <= 0){
+            $this->showBaseSearchPage('No se encontraron productos para la categoría buscada');
+        }else{
+            $this->searchView->showProducts($dbProducts);
+            $this->showBaseSearchPage();
+        }
 
     }
 
