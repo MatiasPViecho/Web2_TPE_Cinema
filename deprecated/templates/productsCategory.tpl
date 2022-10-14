@@ -1,1 +1,0 @@
-{* <p class='pe-5 text-center'>Viendo productos de categoría: {$products->category}</p> *}
