@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-10-2022 a las 02:49:53
+-- Tiempo de generación: 15-10-2022 a las 21:55:48
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -41,7 +41,36 @@ INSERT INTO `categories` (`id`, `category`) VALUES
 (2, 'Tripodes'),
 (11, 'Iluminación'),
 (12, 'Sonido'),
-(15, 'test');
+(15, 'test'),
+(16, 'Microfonos');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `images`
+--
+
+CREATE TABLE `images` (
+  `id` int(11) NOT NULL,
+  `id_products_fk` int(11) NOT NULL,
+  `path` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `images`
+--
+
+INSERT INTO `images` (`id`, `id_products_fk`, `path`) VALUES
+(4, 37, 'img/products634af20500a9c.jpg'),
+(5, 34, 'img/products634af2c3220ea.jpg'),
+(6, 34, 'img/products634af2d5f04bd.jpg'),
+(7, 18, 'img/products634af3f918020.jpg'),
+(8, 18, 'img/products634af4c3a1e39.jpg'),
+(9, 37, 'img/products634af6bee8d59.jpg'),
+(10, 37, 'img/products/634afcaae84bc.jpg'),
+(11, 37, 'img/products/img634afcc743b04.jpg'),
+(12, 37, 'img/products634afcd2dd857.jpg'),
+(13, 37, 'img/products634afcdab59fb.jpg');
 
 -- --------------------------------------------------------
 
@@ -69,7 +98,12 @@ INSERT INTO `products` (`id`, `model`, `price`, `country`, `brand`, `techChar`, 
 (3, 'ESO C300 Mark II', 1374999, 'Japón', 'Canon', 'Incorpora el nuevo sensor DGO 4k Super 35mm', 1),
 (7, 'asdasd', 3424, 'asdasd', '3awda', 'asda', 1),
 (18, 'test', 3, 'test', 'test', 'test', 1),
-(27, '3asdasd', 12312, 'asdasd', 'asdasd', 'asdasd', 1);
+(29, 'asd', 123, 'asd', 'asd', 'asd', 1),
+(30, 'asd', 123, 'asd', 'asd', 'asd', 1),
+(31, 'VACA', 123, 'asd', 'asd', 'asd', 1),
+(32, 'VACA', 123, 'asd', 'asd', 'asd', 1),
+(34, 'Manopla', 111, 'Japón', 'test', 'agarra bien', 1),
+(37, 'Canon EOS C300 Mark II', 788000, 'EEUU', 'Canon', 'Camara buena de cine', 1);
 
 -- --------------------------------------------------------
 
@@ -101,6 +135,14 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `images`
+--
+ALTER TABLE `images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id` (`id`,`id_products_fk`),
+  ADD KEY `id_products_fk` (`id_products_fk`);
+
+--
 -- Indices de la tabla `products`
 --
 ALTER TABLE `products`
@@ -121,13 +163,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT de la tabla `images`
+--
+ALTER TABLE `images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
@@ -138,6 +186,12 @@ ALTER TABLE `users`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `images`
+--
+ALTER TABLE `images`
+  ADD CONSTRAINT `images_ibfk_1` FOREIGN KEY (`id_products_fk`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `products`
