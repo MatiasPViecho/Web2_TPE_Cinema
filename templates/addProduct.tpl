@@ -1,4 +1,4 @@
-<form class='row form-group mx-auto w-50' action='{BASE_URL}product/add' method='POST'>
+<form class='row form-group mx-auto w-50' action='{BASE_URL}product/add' method='POST' enctype='multipart/form-data'>
                 <div class='col'>
                     <label for="model">Nombre del Producto</label>
                         <input class='form-control' type="text" name="model" />
@@ -15,8 +15,10 @@
                             <option name='category' value='{$catItem->id}'>{$catItem->category}</option>    
                         {/foreach}
                         </select>
-                </div>
-                        <label for="characteristics">Ingrese las características del producto</label>
-                            <textarea name="characteristics" cols="35" rows="4"></textarea>
+                    </div>
+                    <label for="characteristics">Ingrese las características del producto</label>
+                        <textarea name="characteristics" cols="35" rows="4"></textarea>
+                    <label for="productImg">Imagen Representativa</label>
+                            <input type='file' name='productImg' id='imageToUpload'/> 
                 <button  type="submit" class='w-50 mb-5 mt-3 mx-auto form-control btn btn-dark'>Añadir Producto</button>
 </form>

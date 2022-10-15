@@ -18,6 +18,7 @@ class productsModel{
         $result = $query->fetchAll(PDO::FETCH_OBJ);
         return $result;
     }
+
     function getProductsQuery($model, $brand, $minPrice, $maxPrice, $country, $categoryFK = null){
         //$query = $this->db->prepare("SELECT * FROM products WHERE model LIKE '%'?'%' AND brand LIKE '%'?'%' AND price LIKE '%'?'%' AND country LIKE '%'?'%' ");
         if(is_null($categoryFK)){
@@ -60,6 +61,7 @@ class productsModel{
 
     //            $this->productsModel->addProduct($model, $price, $country, $brand, $characteristics, $categoryFK);
     function addProduct($model, $price, $country, $brand, $characteristics, $fk){
+
         $query = $this->db->prepare('INSERT INTO products (model, price, country, brand, techChar, id_categories_fk) VALUES (?, ?, ?, ?, ?, ?)');
         $query->execute([$model, $price, $country, $brand, $characteristics, $fk]);
     }
@@ -74,4 +76,7 @@ class productsModel{
         $query->execute([$id]);
     }
 
+    function lastInsertId(){
+        return $this->db->lastInsertId();
+    }
 }

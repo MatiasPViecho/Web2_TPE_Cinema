@@ -1,5 +1,5 @@
 
-        <form class='container' action='{BASE_URL}product/modify/edit/{$product->id}' method='POST'>
+        <form class='container' action='{BASE_URL}product/modify/edit/{$product->id}' method='POST' enctype='multipart/form-data'>
             <div class='w-75 mx-auto'>
             <div>
                 {* 1 of 3 *}
@@ -26,7 +26,11 @@
                         {/if}
                     {/foreach}
                 </select>
-                <button  type="submit" class='w-50 text-center form-control btn btn-warning'>Editar Producto</button>
+                <div>
+                <label for="productImg">Imagen Representativa</label>
+                            <input type='file' name='productImg' id='imageToUpload'/> 
+                </div>
+                <button  type="submit" class='w-50 mt-2 text-center form-control btn btn-warning'>Editar Producto</button>
             </div>
             </div>
         </form>

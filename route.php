@@ -15,7 +15,7 @@ if (!empty($_GET['action'])) {
     $action = 'home'; // acción por defecto si no envían
 }
 
-// instancia el único controller que existe por ahora
+//Instancio los controllers a utilizar
 $homeController = new homeController();
 $loginController = new loginController();
 $searchController = new searchController();

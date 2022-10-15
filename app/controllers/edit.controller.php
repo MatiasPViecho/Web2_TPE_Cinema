@@ -2,12 +2,14 @@
 require_once './app/models/products.model.php';
 require_once './app/models/categories.model.php';
 require_once './app/views/edit.view.php';
+require_once './app/models/images.model.php';
 
 class editController{
 
     private $editView;
     private $productsModel;
     private $categoriesModel;
+    private $imagesModel;
     private $authHelper;
 
     function __construct(){
@@ -15,6 +17,7 @@ class editController{
         $this->productsModel = new productsModel();
         $this->categoriesModel = new categoriesModel();
         $this->authHelper = new AuthHelper();
+        $this->imagesModel = new imagesModel();
     }
 
     function showEditPanel(){
@@ -44,7 +47,13 @@ class editController{
                     echo $_POST['category'];
                     $this->showProductsPanel('Falta agregar categoría');    
                 }else{
-                    $this->productsModel->addProduct($model, $price, $country, $brand, $characteristics, $categoryFK);
+                    if($this->verifyUploadedImg()){
+                        $this->productsModel->addProduct($model, $price, $country, $brand, $characteristics, $categoryFK);
+                        $id_producto = $this->productsModel->lastInsertId();
+                        $this->imagesModel->addImage($id_producto, $_FILES['productImg']['tmp_name']);
+                    }
+                    else
+                        $this->productsModel->addProduct($model, $price, $country, $brand, $characteristics, $categoryFK);
                     $this->showProductsPanel();
                 }
             }else{
@@ -82,7 +91,13 @@ class editController{
                         $characteristics = $_POST['characteristics'];
                         $categoryFK = $_POST['category'];
                         
-                        $this->productsModel->editProduct($model, $price, $country, $brand, $characteristics, $categoryFK, $productID);
+                        if($this->verifyUploadedImg()){
+                            $this->productsModel->editProduct($model, $price, $country, $brand, $characteristics, $categoryFK, $productID);
+                            $this->imagesModel->addImage($productID, $_FILES['productImg']['tmp_name']);
+                        }
+                        else
+                            $this->productsModel->editProduct($model, $price, $country, $brand, $characteristics, $categoryFK, $productID);
+
                         $this->callViewProductModifyPanel($productID);
                     }else{
                         $this->callViewProductModifyPanel($productID, 'Faltan campos a agregar para editar correctamente');
@@ -106,6 +121,7 @@ class editController{
                 if($this->productExistsDB($productID)){
                     //caso true, el producto existe, se procede a eliminarlo
                     $this->productsModel->deleteProduct($productID);
+                    $this->imagesModel->deleteImage($productID);
                     $this->showProductsPanel();
                 }else{
                     //caso false, el producto no existe, se procede a mostrar un mensaje de error
@@ -127,7 +143,7 @@ class editController{
                 $emptyCheck = rtrim($_POST['category']);
             if(!empty($emptyCheck)){
                 $this->categoriesModel->addCategory($category);
-               $this->showCategoryPanel();
+                $this->showCategoryPanel();
             }
             else
                 $this->showCategoryPanel('No se colocó nada en el campo categoría!');
@@ -177,12 +193,22 @@ class editController{
                 }
     //function for error msg
 
-
+    // Function, verifies if an image has been uploaded to a certain edit option
+    private function verifyUploadedImg(){
+        if($_FILES['productImg']['type'] == 'image/jpg' ||
+            $_FILES['productImg']['type'] == 'image/jpeg' ||
+            $_FILES['productImg']['type'] == 'image/png')
+                return true;
+            else
+                return false;
+                
+    }
     private function callViewProductModifyPanel($productID, $msg = null){
                         $product = $this->productsModel->getProductById($productID);
                         $dbCategories = $this->categoriesModel->getAll();
                         $dbProducts = $this->getProductsWithCategory();
                         $product = $this->addCategoryNameProduct($product, $dbCategories);
+                        $product = $this->addImagePath($product);
                         $this->editView->showModifyProductPanel($product, $dbProducts, $dbCategories, $msg);
     }
     private function callViewCategoryModifyPanel($categoryID, $msg = null){
@@ -190,7 +216,7 @@ class editController{
                         $dbProducts = $this->productsModel->getProductsByCategory($categoryID);
                         $dbCategories = $this->categoriesModel->getAll();
                         $dbProducts = $this->addCategoryNameDB($dbProducts, $dbCategories);
-
+                        $dbProducts = $this->addImagePathDB($dbProducts);
                         $this->editView->showModifyCategoryPanel($category, $dbCategories, $dbProducts, $msg);
     }
 
@@ -264,5 +290,34 @@ class editController{
         }
     }
 
+    //Agrego el path a la imagen en el arreglo de productos
+    private function addImagePathDB($dbProducts){
     
+        $images = $this->imagesModel->getAll();
+
+        for($i = 0; $i < count($dbProducts); $i++){
+            foreach($images as $img){
+                if($dbProducts[$i]->id == $img->id_products_fk)
+                    $dbProducts[$i]->imgPath = $img->path;
+            }
+            if(!isset($dbProducts[$i]->imgPath))
+                $dbProducts[$i]->imgPath = null;
+        }
+
+        return $dbProducts;
+    }
+
+    //Agrego de modo individual a un producto específico
+    private function addImagePath($product){
+        $images = $this->imagesModel->getAll();
+
+        for($i=0; $i < count($images); $i++){
+            if($product->id == $images[$i]->id_products_fk)
+                $product->imgPath = $images[$i]->path;
+        }
+        if(!isset($product->imgPath))
+        $product->imgPath = null;
+
+        return $product;
+    }
 }
