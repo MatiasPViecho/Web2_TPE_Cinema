@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-10-2022 a las 21:55:48
+-- Tiempo de generación: 18-10-2022 a las 03:51:19
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -41,7 +41,6 @@ INSERT INTO `categories` (`id`, `category`) VALUES
 (2, 'Tripodes'),
 (11, 'Iluminación'),
 (12, 'Sonido'),
-(15, 'test'),
 (16, 'Microfonos');
 
 -- --------------------------------------------------------
@@ -70,7 +69,15 @@ INSERT INTO `images` (`id`, `id_products_fk`, `path`) VALUES
 (10, 37, 'img/products/634afcaae84bc.jpg'),
 (11, 37, 'img/products/img634afcc743b04.jpg'),
 (12, 37, 'img/products634afcd2dd857.jpg'),
-(13, 37, 'img/products634afcdab59fb.jpg');
+(13, 37, 'img/products634afcdab59fb.jpg'),
+(14, 7, 'img/products634e025cbef7f.jpg'),
+(15, 18, 'img/products634e037a7daa3.jpg'),
+(16, 29, 'img/products634e040057329.jpg'),
+(17, 30, 'img/products634e0463ad36d.jpg'),
+(18, 31, 'img/products634e0537c0afd.jpg'),
+(19, 32, 'img/products634e0596d9b56.jpg'),
+(20, 34, 'img/products634e05e666a25.jpg'),
+(21, 2, 'img/products634e068e02970.jpg');
 
 -- --------------------------------------------------------
 
@@ -93,17 +100,16 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `model`, `price`, `country`, `brand`, `techChar`, `id_categories_fk`) VALUES
-(1, 'Sony FX6', 1374999, 'Japon', 'Sony', 'hola ', 1),
 (2, 'Manfrotto BeFree Live Lever Kit', 68000, 'Italia', 'Manfrotto', 'Material: Aluminio\r\n\r\nAltura extendida: 151cm\r\n\r\nPeso Máximo Soportado: 4kg', 2),
 (3, 'ESO C300 Mark II', 1374999, 'Japón', 'Canon', 'Incorpora el nuevo sensor DGO 4k Super 35mm', 1),
-(7, 'asdasd', 3424, 'asdasd', '3awda', 'asda', 1),
-(18, 'test', 3, 'test', 'test', 'test', 1),
-(29, 'asd', 123, 'asd', 'asd', 'asd', 1),
-(30, 'asd', 123, 'asd', 'asd', 'asd', 1),
-(31, 'VACA', 123, 'asd', 'asd', 'asd', 1),
-(32, 'VACA', 123, 'asd', 'asd', 'asd', 1),
-(34, 'Manopla', 111, 'Japón', 'test', 'agarra bien', 1),
-(37, 'Canon EOS C300 Mark II', 788000, 'EEUU', 'Canon', 'Camara buena de cine', 1);
+(7, 'Canon XA40', 816000, 'Estados Unidos', 'Canon', 'Grabación 4K UHD 30p, Lente zoom óptico 20X, Pantalla táctil LCD de 3 pulgadas', 1),
+(18, 'Neewer 100W', 78225, 'Estados Unidos', 'Neewer', 'Luz de 5600 Kelvin, CRI 97+, TLCI 97+, 11000 Lux', 11),
+(29, 'BOYA BY M1 ', 7850, 'Estados Unidos', 'BOYA', 'Micrófono Lavalier, sonido omnidireccional, Baterias 1 LR44', 16),
+(30, 'GVM Luz LED bicolor', 134400, 'Estados Unidos', 'GVM', 'Temperatura bicolor y ajuste sin pasos, 97+ G100W, TLCI 97+, rango de temperatura Kelvin de 3200K a 5600K', 11),
+(31, 'Tascam Portacapture X8', 225734, 'Australia', 'TASCAM', '4 Entradas de micrófono XLR R/TRS con fuente de alimentación individual (24 V / 48 V), condensador de diafragma grande desmontable de 0.575', 12),
+(32, 'Tascam DP-24SD', 315000, 'Estados Unidos', 'TASCAM', '19 faders elimina la estructuración de capas, 12 pomos giratorios conectados a la pantalla LCD, medios SD/SDHC de estado sólido', 12),
+(34, 'TH-05', 20475, 'Estados Unidos', 'TASCAM', 'Sensibilidad 95 db (+/- 3dB), respuesta de frecuencia 15hz - 22kHz, impedencia 32Ω', 12),
+(37, 'Canon EOS C300 Mark II', 788000, 'EEUU', 'Canon', 'Sensor CMOS de 1.378 4K, 2 salidas 3G-SDI, 2 entradas CLR, 2 Ranuras tarjetas CFast', 1);
 
 -- --------------------------------------------------------
 
@@ -169,7 +175,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT de la tabla `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `products`
